@@ -35,7 +35,7 @@ if (
                     $error .= '<p class="error">No user exists with that username</p>';
                 }
             }
-            $query->close()
+            $query->close();
         }
         mysqli_close($db);
     }
