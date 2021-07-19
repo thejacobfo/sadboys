@@ -1,0 +1,1 @@
+  7/15/21 1:06:20 AM EDT: Starting composition “sadboy gif”.  Output To: /Users/jacobfolstrom/Documents/code/workspace 1/assets/sadboy gif.mov    7/15/21 1:06:21 AM EDT: Finished composition “sadboy gif”.  Total Time Elapsed: 1 SecondsLog closed on 7/15/21 at 1:06:21 AM EDT
