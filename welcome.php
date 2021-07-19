@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["userid"]) || $_SESSION["userid"] !==true) {
+    header("location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +20,7 @@
     <div id="audio-player-container">
     <audio id="player" src="../assets/sinners_lullaby.m4a" autoplay loop></audio>
 </div>
-<div id="sadtext">SAD SAD SAD SAD SAD SAD SAD</div>
+<div id="sadtext">WELCOME <?php echo $_SESSION["name"]; ?></div>
 <div id="display">
     <div><p id="audiomenutext">Audio Menu</p></div>
 <div id="buttons">
@@ -20,9 +29,9 @@
     <li><button class="buttons" onclick="document.getElementById('player').muted=!document.getElementById('player').muted">Mute/ Unmute</button></li>
 </div>
 </div>
-<button id="login" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+<!-- <button id="login" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button> -->
 
-<div id="id01" class="modal">
+<!-- <div id="id01" class="modal">
   
   <form class="modal-content animate" action="" method="post">
     <div class="imgcontainer">
@@ -48,7 +57,8 @@
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
   </form>
-</div>
+</div> -->
+<a href="logout.php" class="buttons" aria-pressed="true">Logout</a>
 </body>
 <script type="text/javascript" src="../js/home.js"></script>
 </html>

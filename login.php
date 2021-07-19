@@ -1,3 +1,45 @@
+<?php
+
+require_once "config.php";
+require_once "session.php";
+
+$error = '';
+if (
+    $_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        if (empty($username)) {
+            $error .= '<p class="error">Please enter username.</p>';
+        }
+        if (empty($password)) {
+            $error .= '<p class="error">Please enter password.</p>';
+        }
+        if (empty($error)) {
+            if($query = $db->prepare("SELECT * FROM users WHERE username = ?")) {
+                $query->bind_param('s', $username);
+                $query->execute();
+                $row = $query->fetch();
+                if ($row) {
+                    if (password_verify($password, $row['password'])) {
+                        $_SESSION["userid"] = $row['id'];
+                        $_SESSION["user"] = $row;
+
+                        header("location: welcome.php");
+                        exit;
+                    } else {
+                        $error .='<p class="error"> The password is not valid.</p>';
+                    }
+                } else {
+                    $error .= '<p class="error">No user exists with that username</p>';
+                }
+            }
+            $query->close()
+        }
+        mysqli_close($db);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,5 +92,14 @@
   </form>
 </div>
 </body>
-<script type="text/javascript" src="../js/home.js"></script>
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}</script>
 </html>
