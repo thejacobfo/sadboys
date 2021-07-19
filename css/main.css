@@ -112,6 +112,22 @@ input[type=text], input[type=password] {
     transition: all 0.5s ease-in-out;
     cursor: pointer;
     }
+      #login {
+    background-color:white;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    width: 100%;
+    font-family: 'sad';
+    opacity: .4;
+    top: 0%;
+    font-size: 32px;;
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    }
+    
   #logininmodal {
     background-color: black;
     color: white;
