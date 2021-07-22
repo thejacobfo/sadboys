@@ -1,12 +1,12 @@
 <?php
-define('DBSERVER', 'localhost');
-define('DBUSERNAME', 'postgres');
-define('DBPASSWORD', 'jacobfolstrom5');
-define('DBNAME', 'dbtest');
-
-$db_connection = pg_connect('DBSERVER', 'DBUSERNAME', 'DBPASSWORD', 'DBNAME');
-
-if($db === false){
+$host = "localhost";
+$port = "5432";
+$dbname = "dbtest";
+$user = "postgres";
+$password = "jacobfolstrom5"; 
+$connection_string = "host={$host} port={$port} dbname={$dbname} user={$user} password={$password} ";
+$dbconn = pg_connect($connection_string);
+if($dbconn === false){
     die("Error: connection error." . pg_connect_error());
 }
 ?>

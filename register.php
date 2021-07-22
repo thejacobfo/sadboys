@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $confirm_password = trim($_POST["confirm_password"]);
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-    if($query = $db->prepare("SELECT * FROM users WHERE username = ?")) {
+    if($query = $dbconn->prepare("SELECT * FROM users WHERE username = ?")) {
         $error = '';
     
         $query->bind_param('s', $username);
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
     $query->close();
     $insertQuery->close();
-    mysqli_close($db);
+    pg_close($dbconn);
 }
 ?>
 <!DOCTYPE html>

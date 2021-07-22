@@ -17,7 +17,7 @@ if (
             $error .= '<p class="error">Please enter password.</p>';
         }
         if (empty($error)) {
-            if($query = $db->prepare("SELECT * FROM users WHERE username = ?")) {
+            if($query = $dbconn->prepare("SELECT * FROM users WHERE username = ?")) {
                 $query->bind_param('s', $username);
                 $query->execute();
                 $row = $query->fetch();
@@ -37,7 +37,7 @@ if (
             }
             $query->close();
         }
-        mysqli_close($db);
+       pg_connect_close($dbconn);
     }
 ?>
 <!DOCTYPE html>
