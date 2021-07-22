@@ -33,18 +33,8 @@ if(isset($_POST['submit'])){
     <title>悲</title>
 </head>
 <body>
-    <div id="audio-player-container">
-    <audio id="player" src="../assets/sinners_lullaby.m4a" autoplay loop></audio>
 </div>
 <div id="sadtext">SAD SAD SAD SAD SAD SAD SAD</div>
-<div id="display">
-    <div><p id="audiomenutext">Audio Menu</p></div>
-<div id="buttons">
-    <li><button class="buttons" onclick="document.getElementById('player').play()">Play</button></li>
-    <li><button class="buttons" onclick="document.getElementById('player').pause()">Pause</button></li>
-    <li><button class="buttons" onclick="document.getElementById('player').muted=!document.getElementById('player').muted">Mute/ Unmute</button></li>
-</div>
-</div>
 <button id="login" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 
 <div id="id01" class="modal">
@@ -74,6 +64,8 @@ if(isset($_POST['submit'])){
     </div>
   </form>
 </div>
+<a href="register.php" id="register" name="register" type="button">Register</a>
+
 </body>
 <script type="text/javascript">
 var modal = document.getElementById('id01');

@@ -112,7 +112,43 @@ input[type=text], input[type=password] {
     transition: all 0.5s ease-in-out;
     cursor: pointer;
     }
-      #logout {
+    #register {
+      background-color:white;
+      color: black;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      width: 7%;
+      font-family: 'sad';
+      opacity: .4;
+      top: 10%;
+      font-size: 32px;;
+      position: absolute;
+      transition: all 0.5s ease-in-out;
+      cursor: pointer;
+      }
+      #register:hover{
+        opacity: 1;
+      }
+      #login2 {
+        background-color:white;
+        color: black;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        width: 4.5%;
+        font-family: 'sad';
+        opacity: .4;
+        top: 10%;
+        font-size: 32px;;
+        position: absolute;
+        transition: all 0.5s ease-in-out;
+        cursor: pointer;
+        }
+        #login2:hover{
+          opacity:1;
+        }
+    #logout {
     background-color:white;
     color: black;
     padding: 14px 20px;
@@ -127,8 +163,22 @@ input[type=text], input[type=password] {
     transition: all 0.5s ease-in-out;
     cursor: pointer;
     }
+    #logout:hover{
+      opacity: 1;
+    }
     
   #logininmodal {
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'sad';
+    font-size: 32px;;
+  }
+  #logininmodal2 {
     background-color: black;
     color: white;
     padding: 14px 20px;
