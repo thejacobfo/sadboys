@@ -3,42 +3,20 @@
 require_once "config.php";
 require_once "session.php";
 
-$error = '';
-if (
-    $_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-
-        $username = trim($_POST['username']);
-        $password = trim($_POST['password']);
-
-        if (empty($username)) {
-            $error .= '<p class="error">Please enter username.</p>';
-        }
-        if (empty($password)) {
-            $error .= '<p class="error">Please enter password.</p>';
-        }
-        if (empty($error)) {
-            if($query = $dbconn->prepare("SELECT * FROM users WHERE username = ?")) {
-                $query->bind_param('s', $username);
-                $query->execute();
-                $row = $query->fetch();
-                if ($row) {
-                    if (password_verify($password, $row['password'])) {
-                        $_SESSION["userid"] = $row['id'];
-                        $_SESSION["user"] = $row;
-
-                        header("location: welcome.php");
-                        exit;
-                    } else {
-                        $error .='<p class="error"> The password is not valid.</p>';
-                    }
-                } else {
-                    $error .= '<p class="error">No user exists with that username</p>';
-                }
-            }
-            $query->close();
-        }
-       pg_connect_close($dbconn);
+if(isset($_POST['submit'])){
+    
+    $hashpassword = md5($_POST['password']);
+    $sql ="SELECT * FROM public.users WHERE username = '"($_POST['username'])."' and password ='".$hashpassword."'";
+    $data = pg_query($dbconn,$sql); 
+    $login_check = pg_num_rows($data);
+    if($login_check > 0){ 
+        
+        echo "Login Successfully";    
+    }else{
+        
+        echo "Invalid Details";
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +24,8 @@ if (
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../assets/icon.gif">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>悲</title>
 </head>
@@ -66,20 +46,20 @@ if (
 
 <div id="id01" class="modal">
   
-  <form class="modal-content animate" action="" method="post">
+  <form class="modal-content animate" method="post">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
       <img src="../assets/onepunchman copy.gif" alt="Avatar" class="avatar">
     </div>
 
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input id="input" type="text" placeholder="Enter Username" name="uname" required>
+      <label for="username"><b>Username</b></label>
+      <input id="input" type="text" placeholder="Enter Username" name="username" required>
 
-      <label for="psw"><b>Password</b></label>
-      <input id="input" type="password" placeholder="Enter Password" name="psw" required>
+      <label for="password"><b>Password</b></label>
+      <input id="input" type="password" placeholder="Enter Password" name="password" required>
         
-      <button id="logininmodal" type="submit">Login</button>
+      <button id="logininmodal" name="submit" type="submit">Login</button>
       <label>
         <input id="input" type="checkbox" checked="checked" name="remember"> Remember me
       </label>
@@ -93,10 +73,7 @@ if (
 </div>
 </body>
 <script type="text/javascript">
-// Get the modal
 var modal = document.getElementById('id01');
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";

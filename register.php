@@ -3,46 +3,17 @@
 require_once "config.php";
 require_once "session.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-
-    $username = trim($_POST['name']);
-    $password = trim($_POST['password']);
-    $confirm_password = trim($_POST["confirm_password"]);
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
-    if($query = $dbconn->prepare("SELECT * FROM users WHERE username = ?")) {
-        $error = '';
-    
-        $query->bind_param('s', $username);
-        $query->execute();
-        $query->store_result();
-            if ($query->num_rows > 0) {
-                $error .= '<p class="error">The username already exists</p>';
-            } else {
-                if (strlen($password ) > 6) {
-                    $error .= '<p class="error">Password must be at least 6 characters long.</p>';
-                }
-                if (empty($confirm_password)) {
-                    $error .= '<p class="error">Confirm password.</p>';
-                } else {
-                    if 
-                    (empty($error) && ($password != $confirm_password)) {
-                        $error .= '<p class="error">Passwords do not match.</p>';
-                    }
-                }
-                if (empty($error) ) {
-                    $insertQuery->bind_param("INSERT INTO users (name, password) VALUES (?, ?, ?);");
-                    $insertQuery->bind_param("sss", $username, $password, $password_hash);
-                    $result = $insertQuery->execute();
-                    if ($result) {
-                        $error .= '<p class="error">Thanks for registering!</p>';
-                    }
-                }
-            }
+if(isset($_POST['submit'])){
+  if((!empty($_POST["username"])) && (!empty($_POST["password"]))){        $sql = "INSERT INTO public.users (username, password) VALUES ('".$_POST['username']."','".md5($_POST['password'])."')";
+    $ret = pg_query($dbconn, $sql);
+    if($ret){
+        
+            echo "Data saved Successfully";
+    } else {
+        
+            echo "Something Went Wrong";
     }
-    $query->close();
-    $insertQuery->close();
-    pg_close($dbconn);
+}
 }
 ?>
 <!DOCTYPE html>
@@ -51,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="icon" href="../assets/icon.gif">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>悲</title>
 </head>
@@ -71,20 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
 <div id="id01" class="modal">
   
-  <form class="modal-content animate" action="" method="post">
+  <form class="modal-content animate" action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
       <img src="../assets/onepunchman copy.gif" alt="Avatar" class="avatar">
     </div>
 
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input id="input" type="text" placeholder="Enter Username" name="uname" required>
+      <label for="username"><b>Username</b></label>
+      <input id="input" type="text" placeholder="Enter Username" name="username" required>
 
-      <label for="psw"><b>Password</b></label>
-      <input id="input" type="password" placeholder="Enter Password" name="psw" required>
+      <label for="password"><b>Password</b></label>
+      <input id="input" type="password" placeholder="Enter Password" name="password" required>
         
-      <button id="logininmodal" type="submit">Register</button>
+      <button id="logininmodal" name="submit" type="submit">Register</button>
       <label>
         <input id="input" type="checkbox" checked="checked" name="remember"> Remember me
       </label>
