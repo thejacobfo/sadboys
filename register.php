@@ -4,10 +4,10 @@ require_once "config.php";
 require_once "session.php";
 
 if(isset($_POST['submit'])){
-  if((!empty($_POST["username"])) && (!empty($_POST["password"]))){        $sql = "INSERT INTO public.users (username, password) VALUES ('".$_POST['username']."','".md5($_POST['password'])."')";
+  if((!empty($_POST["username"])) && (!empty($_POST["password"]))){        
+    $sql = "INSERT INTO public.users (username, password) VALUES ('".$_POST['username']."','".md5($_POST['password'])."')";
     $ret = pg_query($dbconn, $sql);
     if($ret){
-        
             echo "Data saved Successfully";
     } else {
         

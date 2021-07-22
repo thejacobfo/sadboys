@@ -4,14 +4,17 @@ require_once "config.php";
 require_once "session.php";
 
 if(isset($_POST['submit'])){
-    
+    $username = trim($_POST["username"]); 
     $hashpassword = md5($_POST['password']);
-    $sql ="SELECT * FROM public.users WHERE username = '"($_POST['username'])."' and password ='".$hashpassword."'";
+    $sql = "SELECT * FROM public.users WHERE username = '".($_POST['username'])."' and password ='".$hashpassword."'";
     $data = pg_query($dbconn,$sql); 
     $login_check = pg_num_rows($data);
     if($login_check > 0){ 
-        
-        echo "Login Successfully";    
+        session_start();
+      $_SESSION["loggedin"] = true;
+      $_SESSION["id"] = $id;
+      $_SESSION["username"] = $username; 
+      header("location: welcome.php");
     }else{
         
         echo "Invalid Details";
